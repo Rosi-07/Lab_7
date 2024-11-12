@@ -2,7 +2,7 @@ name: "CodeQL Analysis"
 
 on:
   push:
-    branches: [main]  # Cambia 'main' por la rama que quieres analizar
+    branches: [main]  
   pull_request:
     branches: [main]
   schedule:
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ]  # Puedes agregar otros lenguajes si es necesario
+        language: [ 'javascript' ] 
 
     steps:
       - name: Checkout repository
