@@ -1,0 +1,73 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job de pruebas
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Grant execution permissions for mocha
+        run: chmod +x ./node_modules/.bin/mocha
+
+      - name: Run tests with mocha
+        run: npx mocha
+
+  # Job para escanear vulnerabilidades
+  scan:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Pull Docker image by digest
+        run: docker pull daysibv05/infosec-chat@sha256:b9519148210ffe35594451947d1a85569de18ea597e7589c36b5c1b49b56b2f3
+
+      - name: Install Trivy
+        run: |
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.57.1/trivy_0.57.1_Linux-64bit.tar.gz
+          tar zxvf trivy_0.57.1_Linux-64bit.tar.gz
+          sudo mv trivy /usr/local/bin/
+
+      - name: Run Trivy scan
+        run: |
+          trivy image --no-progress --format json -o trivy-report.json daysibv05/infosec-chat@sha256:b9519148210ffe35594451947d1a85569de18ea597e7589c36b5c1b49b56b2f3
+
+      - name: Upload Trivy scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-scan-report
+          path: trivy-report.json
+
+  # Job de despliegue
+  deploy:
+    runs-on: ubuntu-latest
+    needs: scan
+
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: daysibv05
+          password: RJpE4qSxMwGEe2_
+
+      - name: Deploy Docker container
+        run: |
+          docker run -d --name infosec-chat-container -p 8080:8080 daysibv05/infosec-chat@sha256:b9519148210ffe35594451947d1a85569de18ea597e7589c36b5c1b49b56b2f3
