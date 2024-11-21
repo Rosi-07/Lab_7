@@ -3,69 +3,69 @@
   <head>
     <title>Chat Socket.IO UNA</title>
     <style>
-      * { 
-        margin: 0; 
-        padding: 0; 
-        box-sizing: border-box; 
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
-      body { 
+      body {
         display: flex;
         flex-direction: column;
-        font-family: 'Comic Sans MS', cursive, sans-serif; 
-        background-color: #FFF0F5; 
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background-color: #fff0f5;
         color: #333;
       }
-      form { 
-        background: #FFD1DC; 
-        padding: 10px; 
-        position: fixed; 
-        bottom: 0; 
-        width: 100%; 
-        border-top: 2px solid #FFB6C1; 
+      form {
+        background: #ffd1dc;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border-top: 2px solid #ffb6c1;
       }
-      form input { 
-        border: 1px solid #FF69B4; 
-        padding: 10px; 
+      form input {
+        border: 1px solid #ff69b4;
+        padding: 10px;
         font-size: 14px;
         border-radius: 15px;
       }
-      form button { 
-        width: 15%; 
-        background: #FFB6C1; 
-        border: none; 
-        padding: 10px; 
+      form button {
+        width: 15%;
+        background: #ffb6c1;
+        border: none;
+        padding: 10px;
         color: white;
         font-weight: bold;
         border-radius: 15px;
         cursor: pointer;
       }
-      form button:hover { 
-        background-color: #FF69B4; 
+      form button:hover {
+        background-color: #ff69b4;
       }
-      #messages { 
-        list-style-type: none; 
-        margin: 0; 
-        padding: 20px; 
-        background-color: #FFF0F5; 
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 20px;
+        background-color: #fff0f5;
         height: calc(100vh - 80px);
         overflow-y: auto;
       }
-      #messages li { 
-        padding: 10px; 
+      #messages li {
+        padding: 10px;
         border-radius: 10px;
         margin-bottom: 10px;
-        background-color: #FDEFF4; 
+        background-color: #fdeff4;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
-      #messages li:nth-child(odd) { 
-        background-color: #F8E0E6; 
+      #messages li:nth-child(odd) {
+        background-color: #f8e0e6;
       }
-      #m { 
-        width: 70%; 
+      #m {
+        width: 70%;
         margin-right: 10px;
         border-radius: 15px;
       }
-      #nombre { 
+      #nombre {
         width: 15%;
         border-radius: 15px;
       }
@@ -75,13 +75,16 @@
     <ul id="messages"></ul>
     <form action="">
       <input id="nombre" autocomplete="off" placeholder="Tu nombre aquí" />
-      <input id="m" autocomplete="off" placeholder="Escribe un mensaje" /><button>Enviar</button>
+      <input
+        id="m"
+        autocomplete="off"
+        placeholder="Escribe un mensaje"
+      /><button>Enviar</button>
     </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script integrity="sha384-ijk2QwnixVP19l5ENflXHY2/AQDEFvffhiVk6i7wp68I6wjNQFOcyayHgClg" crossorigin="anonymous" src="/socket.io/socket.io.js"></script>
+    <script integrity="sha384-wciR07FV6RBcI+YEVsZy/bInxpyn0ueDqrcGTFSBQv/yk/osR5nzY31koh9Uq" crossorigin="anonymous" src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-
-      var colorHexTxt = "";
+      var colorHexTxt = '';
 
       function getRandomColor() {
         var letters = '0123456789ABCDEF';
@@ -96,41 +99,42 @@
       $(function () {
         var socket = io();
 
-      
-        $('form').submit(function(){
-
-      
-          var nombreTxt = $('#nombre').val() || "Anónimo";
+        $('form').submit(function () {
+          var nombreTxt = $('#nombre').val() || 'Anónimo';
           var mensajeTxt = $('#m').val();
 
-          if (colorHexTxt == "") {
+          if (colorHexTxt == '') {
             colorHexTxt = getRandomColor();
           }
 
-          
-          var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt };
+          var jsonMsg = {
+            nombre: nombreTxt,
+            mensaje: mensajeTxt,
+            color: colorHexTxt,
+          };
 
-      
-          if (mensajeTxt.trim() != "") {
+          if (mensajeTxt.trim() != '') {
             socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
-            $('#m').val('');  
+            $('#m').val('');
           }
 
           return false;
         });
 
- 
-        socket.on('Evento-Mensaje-Server', function(msg){
-
-     
+        socket.on('Evento-Mensaje-Server', function (msg) {
           var msgJson = JSON.parse(msg);
 
-          var mensajeDisplay = "<b style='color:" + msgJson.color + "'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+          var mensajeDisplay =
+            "<b style='color:" +
+            msgJson.color +
+            "'>" +
+            msgJson.nombre +
+            '</b>: ' +
+            msgJson.mensaje;
 
           $('#messages').append($('<li>').html(mensajeDisplay));
-          window.scrollTo(0, document.body.scrollHeight); 
+          window.scrollTo(0, document.body.scrollHeight);
         });
-
       });
     </script>
   </body>

@@ -1,12 +1,14 @@
-name: "CodeQL Analysis"
+name: 'CodeQL Analysis'
 
 on:
   push:
+
     branches: [main]  
+
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 0 * * 1'  # Ejecuta un análisis semanal
+    - cron: '0 0 * * 1' # Ejecuta un análisis semanal
 
 jobs:
   analyze:
@@ -20,7 +22,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+
         language: [ 'javascript' ] 
+
 
     steps:
       - name: Checkout repository
@@ -33,4 +37,3 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-
