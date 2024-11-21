@@ -2,9 +2,9 @@ name: Build, Test, and Deploy to Docker Hub
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   # Job 1: Build
@@ -28,7 +28,7 @@ jobs:
 
   # Job 2: Test
   test:
-    needs: build  # Esto asegura que el test solo se ejecute si el build fue exitoso
+    needs: build # Esto asegura que el test solo se ejecute si el build fue exitoso
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -51,7 +51,7 @@ jobs:
 
   # Job 3: Docker Delivery
   delivery:
-    needs: test  # Esto asegura que el job de delivery solo se ejecute después de que el test sea exitoso
+    needs: test # Esto asegura que el job de delivery solo se ejecute después de que el test sea exitoso
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
