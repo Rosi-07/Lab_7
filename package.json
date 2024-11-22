@@ -17,8 +17,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha",
-    "lint": "standard",
-    "lint:fix": "standard --fix",
+    "lint": "standard --fix",
     "format": "prettier --write ."
   },
   "author": "UNA",
