@@ -1,8 +1,8 @@
 const validators = {
-  phone: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i,
+  phone: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/i,
   image: /\.(jpeg|jpg|gif|png|bmp|webp|svg)$/i,
   video: /\.(mp4|webm|ogg)$/i,
-  youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i,
+  youtube: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/i
 };
 
 const escapeHtml = (unsafe) =>
@@ -76,5 +76,5 @@ module.exports = {
   escapeHtml,
   getImageEmbedCode,
   getVideoEmbedCode,
-  validateMessage,
+  validateMessage
 };

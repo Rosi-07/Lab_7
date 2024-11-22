@@ -29,5 +29,16 @@
     "eslint-plugin-promise": "^6.6.0",
     "prettier": "^3.3.3",
     "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+  "extends": "standard",
+  "env": {
+    "mocha": true,
+    "node": true
+  },
+  "rules": {
+    "semi": ["error", "always"]
   }
+}
+
 }

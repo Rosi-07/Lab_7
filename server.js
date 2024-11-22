@@ -6,9 +6,9 @@ const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 const http = require('http');
 const socketIo = require('socket.io');
-var cons = require('consolidate');
-var path = require('path');
-let app = express();
+const cons = require('consolidate');
+const path = require('path');
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const unalib = require('./unalib');
@@ -24,7 +24,7 @@ const config = {
   secret: SECRET,
   baseURL: process.env.BASE_URL,
   clientID: process.env.CLIENT_ID,
-  issuerBaseURL: process.env.ISSUER_BASE_URL,
+  issuerBaseURL: process.env.ISSUER_BASE_URL
 };
 
 app.use(auth(config));
@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
 
   socket.on('Evento-Mensaje-Server', function (msg) {
     console.log('Mensaje recibido en el servidor:', msg);
-    var validatedMessage = unalib.validateMessage(msg);
+    const validatedMessage = unalib.validateMessage(msg);
     console.log('Mensaje validado:', validatedMessage);
     io.emit('Evento-Mensaje-Server', validatedMessage);
   });
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', requiresAuth(), (req, res) => {
-  var payload = Buffer.from(
+  const payload = Buffer.from(
     req.appSession.id_token.split('.')[1],
     'base64'
   ).toString('utf-8');
@@ -63,7 +63,7 @@ app.get('/dashboard', requiresAuth(), (req, res) => {
 });
 
 app.get('/chat', requiresAuth(), (req, res) => {
-  var payload = Buffer.from(
+  const payload = Buffer.from(
     req.appSession.id_token.split('.')[1],
     'base64'
   ).toString('utf-8');
