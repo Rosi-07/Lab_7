@@ -1,10 +1,8 @@
-name: 'CodeQL Analysis'
+name: 'Linting and CodeQL Analysis'
 
 on:
   push:
-
     branches: [main]  
-
   pull_request:
     branches: [main]
   schedule:
@@ -12,7 +10,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze code
+    name: Analyze code and linting
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -22,13 +20,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-
-        language: [ 'javascript' ] 
-
+        language: ['javascript']
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.18.0'  
+
+      - name: Install dependencies
+        run: |
+          npm install  # Instala las dependencias del proyecto
+
+      - name: Run Linting with Standard
+        run: |
+          npm run lint  # Ejecuta el linting con Standard
+
+      - name: Run Prettier Check
+        run: |
+          npm run format  # Ejecuta el formateo con Prettier
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
