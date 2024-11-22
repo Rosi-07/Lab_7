@@ -16,11 +16,19 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "format": "prettier --write ."
   },
   "author": "UNA",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^3.3.3"
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.6.0",
+    "prettier": "^3.3.3",
+    "standard": "^17.1.2"
   }
 }
